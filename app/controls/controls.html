@@ -1,0 +1,8 @@
+<style>
+  @import url("controls.css");
+</style>
+<div id="controls">
+  <button class="stop" (click)="stop()">stop</button>
+  <button class="start" (click)="start()">start</button>
+  <div id="data">{{service.fps}} FPS - {{service.balls.length}} Balls</div>
+</div>

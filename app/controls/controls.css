@@ -1,0 +1,42 @@
+#controls {
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    background-color: crimson;
+    z-index: 999;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+button {
+    position: absolute;
+    top: 10px;
+    width: 80px;
+    height: 30px;
+    border: 0;
+    outline: none;
+    background-color: white;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: crimson;
+    color: white;
+    border: 1px solid white;
+}
+
+button.stop {
+    right: 10px;
+}
+
+button.start {
+    right: 100px;
+}
+
+#data {
+    position: absolute;
+    margin-left: 10px;
+    color: white;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}

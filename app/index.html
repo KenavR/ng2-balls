@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- ES6-related imports -->
+    <script src="lib/traceur-runtime.js"></script>
+    <script src="lib/es6-module-loader-sans-promises.src.js"></script>
+    <script src="lib/extension-register.js"></script>
+    <script>
+        register(System);
+    </script>
+
+    <!-- Angular2-related imports -->
+    <script src="lib/angular2.js"></script>
+    <script src="lib/zone.js"></script>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <app>
+        Loading...
+    </app>
+</body>
+
+<!-- Application bootstrap logic -->
+<script>
+    Promise.all([System.import('angular2/core'), System.import('app')]).then(function (modules) {
+        modules[0].bootstrap(modules[1].App);
+    }, console.log.bind(console));
+</script>
+
+</html>
