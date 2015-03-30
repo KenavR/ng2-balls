@@ -1,6 +1,7 @@
 import {Component, Template} from 'angular2/angular2';
 import {Inject} from 'angular2/di';
 import { SimulationService } from 'simulationService';
+import {SimulationWorkerService} from "simulationWorkerService";
 
 @Component({
   selector: 'controls'
@@ -12,6 +13,7 @@ import { SimulationService } from 'simulationService';
 export class Controls {
   constructor(@Inject(SimulationService)simulationService:SimulationService) {
     this.service = simulationService;
+    this.worker = new Worker("simulationWorkerService.js");
   }
 
   stop() {

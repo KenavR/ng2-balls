@@ -1,5 +1,10 @@
 export class SimulationService {
+
+
   constructor() {
+    this.diameter = 10;
+    this.header = 50;
+
     this.run = false;
     this.balls = [];
     this.fps = 60;
@@ -12,15 +17,15 @@ export class SimulationService {
   calculateBalls() {
 
     let thisLoop = new Date();
-    this.fps = Math.ceil(1000 / (thisLoop - this.lastLoop));
+    this.fps = Math.round(1000 / (thisLoop - this.lastLoop));
     this.lastLoop = thisLoop;
     this.balls.forEach(function (b) {
-      b.velocityX = b.velocityX * ((b.x < 0 || b.x + 10 > document.body.clientWidth) ? -1 : 1);
-      b.velocityY = b.velocityY * ((b.y < 0 || b.y + 10  > document.body.clientHeight) ? -1 : 1);
-      b.x = Math.ceil(b.x + b.velocityX);
-      b.y = Math.ceil(b.y + b.velocityY);
+      b.velocityX = b.velocityX * ((b.x < 0 || b.x + this.diameter > document.body.clientWidth) ? -1 : 1);
+      b.velocityY = b.velocityY * ((b.y < this.header || b.y + this.diameter  > document.body.clientHeight) ? -1 : 1);
+      b.x = Math.round(b.x + b.velocityX);
+      b.y = Math.round(b.y + b.velocityY);
       window.scrollTo(0, 0); //force layout recalc/repaint
-    });
+    }.bind(this));
 
     if(this.fps > 30 && !this.increasing) {
       this.increasing = true;
@@ -53,14 +58,14 @@ export class SimulationService {
     //x = document.body.clientWidth /2;
     //y = document.body.clientHeight /2;
     x = Math.random() * document.body.clientWidth;
-    y = Math.random() * document.body.clientHeight;
+    y = Math.random() * (document.body.clientHeight - this.header) + this.header;
     color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
-    angle = Math.ceil(Math.random() * 360);
-    speed = Math.ceil(Math.random() * 50);
-    //speed = 30;
+    angle = Math.round(Math.random() * 360);
+    speed = Math.round(Math.random() * 50);
+    //speed = 15;
     let ball = {
-      "x": Math.ceil(x),
-      "y": Math.ceil(y),
+      "x": Math.round(x),
+      "y": Math.round(y),
       "color": color,
       "angle": angle,
       "speed": speed,
