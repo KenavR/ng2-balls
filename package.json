@@ -1,17 +1,17 @@
 {
-  "name": "ng2-play",
+  "name": "ng2-balls",
   "version": "0.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pkozlowski-opensource/ng2-play.git"
+    "url": "https://github.com/KenavR/ng2-balls.git"
   },
   "bugs": {
-    "url": "https://github.com/pkozlowski-opensource/ng2-play/issues"
+    "url": "https://github.com/KenavR/ng2-balls/issues"
   },
-  "homepage": "https://github.com/pkozlowski-opensource/ng2-play",
+  "homepage": "https://github.com/KenavR/ng2-balls",
   "devDependencies": {
     "connect": "^3.3.4",
     "del": "~1.1.1",
@@ -19,13 +19,13 @@
     "gulp-concat": "~2.5.0",
     "gulp-plumber": "^1.0.0",
     "gulp-rename": "~1.2.0",
-    "gulp-traceur": "0.17.*",
+    "gulp-traceur": "0.16.*",
     "open": "0.0.5",
     "serve-static": "~1.8.1",
     "through2": "~0.6.3"
   },
   "dependencies": {
-    "angular2": "2.0.0-alpha.18",
+    "angular2": "2.0.0-alpha.15",
     "zone.js": "0.4.1",
     "es6-module-loader": "~0.11.0",
     "systemjs": "~0.11.0"
