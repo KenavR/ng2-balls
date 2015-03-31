@@ -3,7 +3,8 @@ import {Component, Template} from 'angular2/angular2';
 @Component({
   selector: 'ball',
   bind: {
-    'data': 'data'
+    'data': 'data',
+    'diameter': 'diameter'
   }
 })
 @Template({
@@ -11,5 +12,6 @@ import {Component, Template} from 'angular2/angular2';
 })
 
 export class Ball {
-    constructor() {}
+    constructor() {
+    }
 }

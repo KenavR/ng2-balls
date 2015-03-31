@@ -1,12 +1,11 @@
-import { Component, Template, For } from 'angular2/angular2';
-import { Ball } from 'ball/ball';
-import { Controls } from 'controls/controls';
-import { SimulationService } from 'simulationService';
-import { SimulationWorkerService } from "simulationWorkerService";
+import { Component, Template, For } from "angular2/angular2";
+import { Ball } from "ball/ball";
+import { Controls } from "controls/controls";
+import { SimulationService } from "simulationService";
 
 @Component({
-  selector: 'app',
-  services: [SimulationService, SimulationWorkerService]
+  selector: "app",
+  services: [SimulationService]
 })
 @Template({
   url: "app.html",
@@ -14,7 +13,7 @@ import { SimulationWorkerService } from "simulationWorkerService";
 })
 
 export class App {
-  constructor(simulationService:SimulationService, simulationWorkerService:SimulationWorkerService) {
+  constructor(simulationService:SimulationService) {
     this.service = simulationService;
   }
 }

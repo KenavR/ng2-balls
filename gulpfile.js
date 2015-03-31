@@ -7,8 +7,10 @@ var traceur = require('gulp-traceur');
 
 var PATHS = {
     src: {
-        js: 'src/**/*.js',
-        html: 'src/**/*.html'
+        js: ['app/**/*.js', '!app/simulationWorker.js'],
+        html: 'app/**/*.html',
+        css: 'app/**/*.css',
+        es5: "app/simulationWorker.js"
     },
     lib: [
         'node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js',
@@ -46,10 +48,19 @@ gulp.task('html', function () {
     return gulp.src(PATHS.src.html)
         .pipe(gulp.dest('dist'));
 });
+gulp.task('css', function () {
+    return gulp.src(PATHS.src.css)
+        .pipe(gulp.dest('dist'));
+});
 
 gulp.task('libs', ['angular2'], function () {
     return gulp.src(PATHS.lib)
         .pipe(gulp.dest('dist/lib'));
+});
+
+gulp.task("es5", function() {
+    return gulp.src(PATHS.src.es5)
+        .pipe(gulp.dest("dist"));
 });
 
 gulp.task('angular2', function () {
@@ -79,6 +90,8 @@ gulp.task('play', ['default'], function () {
 
     gulp.watch(PATHS.src.html, ['html']);
     gulp.watch(PATHS.src.js, ['js']);
+    gulp.watch(PATHS.src.css, ['css']);
+    gulp.watch(PATHS.src.es5, ['es5']);
 
     app = connect().use(serveStatic(__dirname + '/dist'));  // serve everything that is static
     http.createServer(app).listen(port, function () {
@@ -86,4 +99,4 @@ gulp.task('play', ['default'], function () {
     });
 });
 
-gulp.task('default', ['js', 'html', 'libs']);
+gulp.task('default', ['js', 'html', 'libs', 'css', "es5"]);
