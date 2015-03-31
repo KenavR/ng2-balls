@@ -12,10 +12,11 @@
       self.increasing = false;
       self.lastLoop = new Date();
 
-      self.addEventListener("message", listener);
+      self.addEventListener("message", messagelistener);
     }
 
     function calculateBalls() {
+      self.postMessage({out: "I am running"});
       self.balls.forEach(function (b) {
         b.velocityX = b.velocityX * ((b.x < 0 || b.x + self.diameter > self.clientWidth) ? -1 : 1);
         b.velocityY = b.velocityY * ((b.y < self.header || b.y + self.diameter  >  self.clientHeight) ? -1 : 1);
@@ -29,18 +30,13 @@
           self.balls = self.balls.concat(generateMultipleBalls(10));
           self.increasing = false;
         }.bind(self), 500);
-
       }
 
-
       if (self.run){
-        self.postMessage({update: {balls: self.balls, fps: self.fps}});
         setTimeout(function() {
           calculateBalls();
         }, 1000 / 60);
-        
       }
-
   }
 
   function generateMultipleBalls(number) {
@@ -54,18 +50,15 @@
   }
 
   function generateBall() {
+    self.postMessage({out: "Generate"});
     var x, y, color, angle, speed;
-    //x = Math.random() * 300 + 700;
-    //y = Math.random() * 300 + 100;
-    //x = document.body.clientWidth /2;
-    //y = document.body.clientHeight /2;
     x = Math.random() * self.clientWidth;
     y = Math.random() * (self.clientHeight - self.header) + self.header;
     color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
     angle = Math.round(Math.random() * 360);
-    speed = Math.round(Math.random() * 50);
+    speed = Math.round(Math.random() * self.maxSpeed);
     //speed = 15;
-    let ball = {
+    var ball = {
       "x": Math.round(x),
       "y": Math.round(y),
       "color": color, 
@@ -77,21 +70,25 @@
     return ball;
   }
 
-  function listener(event) {
+  function messagelistener(event) {
     if(event.data.hasOwnProperty("initialState")) {
       self.balls = event.data.initialState.balls;
       self.diameter = event.data.initialState.diameter;
       self.header = event.data.initialState.header;
       self.clientHeight = event.data.initialState.clientHeight;
       self.clientWidth = event.data.initialState.clientWidth;
+      self.maxSpeed = event.data.initialState.maxSpeed
     } else if(event.data.hasOwnProperty("run")) {
       self.run = event.data.run;
-      if(self.run)
+      if(self.run) {
+        self.lastLoop = new Date();
         calculateBalls();
-    }else if(event.data.hasOwnProperty("fps")){
-      self.fps = event.data.fps;
+      }
+    } else if(event.data.hasOwnProperty("requestBalls")) {
+      self.postMessage({out: "requested!"});
+      self.fps = event.data.fps || self.fps;
+      self.postMessage({update: {balls: self.balls, fps: self.fps}});
     }
-    
   }
 
 }());
