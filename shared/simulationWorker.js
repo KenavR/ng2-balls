@@ -1,4 +1,4 @@
-(function() {
+    (function() {
   "use strict";
 
     init();
@@ -6,7 +6,8 @@
     function init() {
       self.diameter = 10;
       self.header = 50;
-      self.maxBalls = 10;
+      self.maxBalls = 1000;
+      self.minFPS = 30;
 
       self.run = false;
       self.balls = [];
@@ -24,7 +25,7 @@
         b.y = Math.round(b.y + b.velocityY);
       }.bind(self));
 
-      if(self.fps > 30 && !self.increasing && self.balls.length < self.maxBalls) {
+      if(self.fps > self.minFPS && !self.increasing && self.balls.length < self.maxBalls) {
         self.increasing = true;
         setTimeout(function addBalls() {
           self.balls = self.balls.concat(generateMultipleBalls(10));

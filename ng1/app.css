@@ -1,0 +1,58 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#controls {
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    background-color: cadetblue;
+    z-index: 999;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#controls button {
+    position: absolute;
+    top: 10px;
+    width: 80px;
+    height: 30px;
+    border: 0;
+    outline: none;
+    background-color: white;
+}
+
+#controls button:hover {
+    cursor: pointer;
+    background-color: cadetblue;
+    color: white;
+    border: 1px solid white;
+}
+
+#controls button.stop {
+    right: 10px;
+}
+
+#controls button.start {
+    right: 100px;
+}
+
+#controls #data {
+    position: absolute;
+    margin-left: 10px;
+    color: white;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+
+.ball {
+    position: absolute;
+    border-radius: 50%;
+    background-color: red;
+    width: 10px;
+    height: 10px;
+}

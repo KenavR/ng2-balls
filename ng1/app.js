@@ -1,15 +1,17 @@
 (function() {
 	"use strict";
 
-	function App() {
+	function App(SimulationService) {
 		return {
 			restrict: "E",
 			templateUrl: "app.html",
-			transclude: true
+			link: function appLink(scope) {
+				scope.service = SimulationService;
+			}
 		}
 	}
 
-	angular.
-	  .module("ng2Balls")
-	  .directive("App", [App]);
+	angular
+	  .module("ngBalls", [])
+	  .directive("app", ["SimulationService", App]);
 }());

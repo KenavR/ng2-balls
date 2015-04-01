@@ -12,16 +12,16 @@ export class SimulationService {
     this.lastLoop = new Date();
     this.loop = 0;
     
-    this.worker = new Worker("../shared/simulationWorker.js");
+    this.worker = new Worker("shared/simulationWorker.js");
     this.worker.addEventListener("message", this.workerMessageListener.bind(this), false);
     this.initWorker();
   }
 
   updateBalls(updatedBalls, callback) {
     var currentLoop = new Date();
-    this.loop = (this.loop + 1) % 20;
+    this.loop = (this.loop + 1) % 10;
     if(this.loop === 0)
-      this.fps = Math.round(1000 / (currentLoop - this.lastLoop));
+      this.fps = Math.round((1000 / (currentLoop - this.lastLoop))*10) / 10;
     this.lastLoop = currentLoop;
     this.balls = updatedBalls;
     callback();
