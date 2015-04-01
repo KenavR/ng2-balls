@@ -4,7 +4,7 @@
 	function App(SimulationService) {
 		return {
 			restrict: "E",
-			templateUrl: "app.html",
+			templateUrl: "app/app.html",
 			link: function appLink(scope) {
 				scope.service = SimulationService;
 			}

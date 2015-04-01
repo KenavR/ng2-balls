@@ -6,7 +6,6 @@
       restrict: "E",
       templateUrl: "controls/controls.html",
       link: function controlsLink(scope) {
-        console.log("controlsLink");
         scope.start = start;
         scope.stop = stop;
 

@@ -8,9 +8,9 @@ var runSequence = require('run-sequence');
 
 var PATHS = {
     src: {
-        js: ['app/**/*.js'],
-        html: 'app/**/*.html',
-        css: 'app/**/*.css',
+        js: ['ng2/**/*.js'],
+        html: 'ng2/**/*.html',
+        css: 'ng2/**/*.css',
         shared: "shared/*.js"
     },
     dist: "dist/ng2",
