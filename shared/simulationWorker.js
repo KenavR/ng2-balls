@@ -1,4 +1,4 @@
-    (function() {
+(function() {
   "use strict";
 
     init();
@@ -70,12 +70,9 @@
 
   function messagelistener(event) {
     if(event.data.hasOwnProperty("initialState")) {
-      self.balls = event.data.initialState.balls;
-      self.diameter = event.data.initialState.diameter;
-      self.header = event.data.initialState.header;
-      self.clientHeight = event.data.initialState.clientHeight;
-      self.clientWidth = event.data.initialState.clientWidth;
-      self.maxSpeed = event.data.initialState.maxSpeed;
+      for(var key in event.data.initialState) {
+        self[key] = event.data.initialState[key];
+      }
       self.balls = generateMultipleBalls(10);
       self.postMessage({update: {balls: self.balls}});
     } else if(event.data.hasOwnProperty("run")) {
