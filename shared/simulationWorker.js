@@ -6,6 +6,7 @@
     function init() {
       self.diameter = 10;
       self.header = 50;
+      self.maxBalls = 10;
 
       self.run = false;
       self.balls = [];
@@ -16,7 +17,6 @@
     }
 
     function calculateBalls() {
-      self.postMessage({out: "I am running"});
       self.balls.forEach(function (b) {
         b.velocityX = b.velocityX * ((b.x < 0 || b.x + self.diameter > self.clientWidth) ? -1 : 1);
         b.velocityY = b.velocityY * ((b.y < self.header || b.y + self.diameter  >  self.clientHeight) ? -1 : 1);
@@ -24,18 +24,16 @@
         b.y = Math.round(b.y + b.velocityY);
       }.bind(self));
 
-      if(self.fps > 30 && !self.increasing) {
+      if(self.fps > 30 && !self.increasing && self.balls.length < self.maxBalls) {
         self.increasing = true;
-        setTimeout(function() {
+        setTimeout(function addBalls() {
           self.balls = self.balls.concat(generateMultipleBalls(10));
           self.increasing = false;
         }.bind(self), 500);
       }
 
       if (self.run){
-        setTimeout(function() {
-          calculateBalls();
-        }, 1000 / 60);
+        setTimeout(calculateBalls, 1000 / 60);
       }
   }
 
@@ -50,7 +48,6 @@
   }
 
   function generateBall() {
-    self.postMessage({out: "Generate"});
     var x, y, color, angle, speed;
     x = Math.random() * self.clientWidth;
     y = Math.random() * (self.clientHeight - self.header) + self.header;
@@ -77,7 +74,9 @@
       self.header = event.data.initialState.header;
       self.clientHeight = event.data.initialState.clientHeight;
       self.clientWidth = event.data.initialState.clientWidth;
-      self.maxSpeed = event.data.initialState.maxSpeed
+      self.maxSpeed = event.data.initialState.maxSpeed;
+      self.balls = generateMultipleBalls(10);
+      self.postMessage({update: {balls: self.balls}});
     } else if(event.data.hasOwnProperty("run")) {
       self.run = event.data.run;
       if(self.run) {
@@ -85,7 +84,6 @@
         calculateBalls();
       }
     } else if(event.data.hasOwnProperty("requestBalls")) {
-      self.postMessage({out: "requested!"});
       self.fps = event.data.fps || self.fps;
       self.postMessage({update: {balls: self.balls, fps: self.fps}});
     }

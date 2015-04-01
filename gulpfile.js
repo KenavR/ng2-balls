@@ -10,7 +10,7 @@ var PATHS = {
         js: ['app/**/*.js', '!app/simulationWorker.js'],
         html: 'app/**/*.html',
         css: 'app/**/*.css',
-        es5: "app/simulationWorker.js"
+        shared: "shared/*.js"
     },
     lib: [
         'node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js',
@@ -58,10 +58,10 @@ gulp.task('libs', ['angular2'], function () {
         .pipe(gulp.dest('dist/lib'));
 });
 
-gulp.task("es5", function() {
-    return gulp.src(PATHS.src.es5)
-        .pipe(gulp.dest("dist"));
-});
+gulp.task("shared", function() {
+    return gulp.src(PATHS.src.shared)
+        .pipe(gulp.dest("dist/shared"));
+})  
 
 gulp.task('angular2', function () {
 
@@ -91,7 +91,7 @@ gulp.task('play', ['default'], function () {
     gulp.watch(PATHS.src.html, ['html']);
     gulp.watch(PATHS.src.js, ['js']);
     gulp.watch(PATHS.src.css, ['css']);
-    gulp.watch(PATHS.src.es5, ['es5']);
+    gulp.watch(PATHS.src.shared, ['shared']);
 
     app = connect().use(serveStatic(__dirname + '/dist'));  // serve everything that is static
     http.createServer(app).listen(port, function () {
@@ -99,4 +99,4 @@ gulp.task('play', ['default'], function () {
     });
 });
 
-gulp.task('default', ['js', 'html', 'libs', 'css', "es5"]);
+gulp.task('default', ['js', 'html', 'libs', 'css', "shared"]);

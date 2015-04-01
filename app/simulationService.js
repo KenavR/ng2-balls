@@ -1,19 +1,23 @@
 export class SimulationService {
 
   constructor() {
+    //Init Values
     this.diameter = 10;
     this.header = 50;
     this.maxSpeed = 10;
-
     this.balls = [];
+    
+    //FPS calculation
     this.fps = 60;
-    this.balls = this.generateMultipleBalls(10);
     this.lastLoop = new Date();
     this.loop = 0;
+    
+    this.worker = new Worker("../shared/simulationWorker.js");
+    this.worker.addEventListener("message", this.workerMessageListener.bind(this), false);
+    this.initWorker();
   }
 
   updateBalls(updatedBalls, callback) {
-    console.log("update!!!");
     var currentLoop = new Date();
     this.loop = (this.loop + 1) % 20;
     if(this.loop === 0)
@@ -24,32 +28,37 @@ export class SimulationService {
 
   }
 
-  generateMultipleBalls(number) {
-    let balls = [];
-    for(let i = 0; i < number; i++) {
-      balls.push(this.generateBall());
-    }
-    return balls;
+  initWorker() {
+    this.worker.postMessage({initialState: {
+          header: this.header,
+          diameter: this.diameter,
+          clientWidth: document.body.clientWidth,
+          clientHeight: document.body.clientHeight,
+          maxSpeed: this.maxSpeed
+    }});
   }
 
-  generateBall() {
-    let x, y, color, angle, speed;
-    x = Math.random() * (document.body.clientWidth-10) + 10;
-    y = Math.random() * (document.body.clientHeight - this.header) + this.header;
-    color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
-    angle = Math.round(Math.random() * 360);
-    speed = Math.round(Math.random() * this.maxSpeed);
-    //speed = 15;
-    let ball = {
-      "x": Math.round(x),
-      "y": Math.round(y),
-      "color": color,
-      "angle": angle,
-      "speed": speed,
-      "velocityX": Math.cos(angle) * speed,
-      "velocityY": Math.sin(angle) * speed
-    };
-    return ball;
+  startWorker() {
+    this.run = true;
+    this.worker.postMessage({run: true});
+    this.worker.postMessage({"requestBalls": true, fps: this.fps});
+  }
+
+  stopWorker() {
+    this.run = false;
+     this.worker.postMessage({run: false});
+    this.worker.removeEventListener("message", this.workerMessageListener.bind(this));
+  }
+
+  workerMessageListener(event) {
+    if(event.data.hasOwnProperty("update")) {
+      window.requestAnimationFrame(this.updateBalls.bind(this, event.data.update.balls, function() {
+        if(this.run)
+          this.worker.postMessage({"requestBalls": true, fps: this.fps});
+      }.bind(this)));
+    } else if(event.data.hasOwnProperty("out")) {
+      console.log("Worker said: ", event.data);
+    }
   }
 }
 
