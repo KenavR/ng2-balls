@@ -14,4 +14,5 @@ import {Component, Template} from 'angular2/angular2';
 export class Ball {
     constructor() {
     }
+
 }

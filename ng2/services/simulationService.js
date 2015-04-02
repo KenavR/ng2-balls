@@ -9,6 +9,7 @@ export class SimulationService {
     
     //FPS calculation
     this.fps = 60;
+    this.stack = 0;
     this.lastLoop = new Date();
     this.loop = 0;
     
@@ -20,8 +21,11 @@ export class SimulationService {
   updateBalls(updatedBalls, callback) {
     var currentLoop = new Date();
     this.loop = (this.loop + 1) % 10;
-    if(this.loop === 0)
-      this.fps = Math.round((1000 / (currentLoop - this.lastLoop))*10) / 10;
+    if(this.loop === 0) {
+      this.fps = Math.round((1000 / (this.stack / 10))*10) / 10;
+      this.stack = 0;
+    }
+    this.stack += (currentLoop - this.lastLoop);
     this.lastLoop = currentLoop;
     this.balls = updatedBalls;
     callback();

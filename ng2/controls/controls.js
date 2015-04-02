@@ -1,6 +1,6 @@
 import {Component, Template} from 'angular2/angular2';
 import {Inject} from 'angular2/di';
-import {SimulationService} from 'simulationService';
+import {SimulationService} from '../services/simulationService';
 
 @Component({
   selector: 'controls'

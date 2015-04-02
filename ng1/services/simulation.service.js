@@ -20,6 +20,7 @@
       //FPS calculation
       service.fps = 60;
       service.lastLoop = new Date();
+      service.stack = 0;
       service.loop = 0;
 
       service.worker = new Worker("shared/simulationWorker.js");
@@ -30,8 +31,11 @@
     function updateBalls(updatedBalls, callback) {
       var currentLoop = new Date();
       service.loop = (service.loop + 1) % 10;
-      if(service.loop === 0)
-        service.fps =  Math.round((1000 / (currentLoop - this.lastLoop))*10) / 10;
+      if(service.loop === 0) {
+        service.fps = Math.round((1000 / (service.stack / 10))*10) / 10;
+        service.stack = 0;
+      }
+      service.stack += (currentLoop - this.lastLoop);
       service.lastLoop = currentLoop;
       $rootScope.$apply(function() {
         service.balls = updatedBalls;
